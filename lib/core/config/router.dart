@@ -1,8 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:notes/screens/deleted_notes_screen.dart';
-import 'package:notes/screens/home_screen.dart';
-import 'package:notes/screens/note_edit_screen.dart';
-import 'package:notes/screens/shell_scaffold.dart';
+import 'package:notes/core/widgets/widgets.dart';
+import 'package:notes/features/notes/presentation/screens/screens.dart';
 
 class NotesRouter {
   final GoRouter router = GoRouter(
@@ -36,8 +34,15 @@ class NotesRouter {
       ),
       GoRoute(
         name: 'note.edit',
-        path: '/edit',
-        builder: (context, state) => NotesEditScreen(),
+        path: '/edit/:id',
+        builder: (context, state) => NoteEditScreen(
+          id: int.parse(state.pathParameters['id']!),
+        ),
+      ),
+      GoRoute(
+        name: 'note.store',
+        path: '/store',
+        builder: (context, state) => const NoteStoreScreen(),
       ),
     ],
   );
