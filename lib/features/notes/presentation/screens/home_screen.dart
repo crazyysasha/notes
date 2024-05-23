@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/core/utils/injector.dart';
 import 'package:notes/features/notes/domain/entities/note.dart';
 
-import '../blocs/note_list_bloc/note_list_bloc.dart';
+import '../blocs/note_list/note_list_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('notes'),
+        title: const Text('notes'),
       ),
       body: BlocConsumer<NoteListBloc, NoteListState>(
         bloc: i.of<NoteListBloc>(),
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           context.push('/store');
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -74,22 +74,36 @@ class HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+      ),
       itemCount: items.length,
-      itemBuilder: (context, index) => ListTile(
+      itemBuilder: (context, index) => GestureDetector(
         onTap: () => context.push('/edit/${items[index].id}'),
-        title: Text(
-          items[index].title,
-        ),
-        subtitle: Text(
-          items[index].content,
-        ),
-        leading: CircleAvatar(
-          child: Text(
-            items[index].category?.name[0] ?? 'No',
+        child: Card(
+          color: Colors.amberAccent,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(items[index].title),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  items[index].content,
+                  maxLines: 4,
+                ),
+              ],
+            ),
           ),
         ),
       ),
+      padding: const EdgeInsets.all(10),
     );
   }
 }

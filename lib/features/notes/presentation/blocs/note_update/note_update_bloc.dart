@@ -17,6 +17,57 @@ class NoteUpdateBloc extends Bloc<NoteUpdateEvent, NoteUpdateState> {
             payload: payload,
           ),
         ) {
-    on<NoteUpdateEvent>((event, emit) {});
+    on(_onStarted);
+    on(_onPayloadChanged);
+    on(_onRequested);
+  }
+
+  void _onStarted(
+    _Started event,
+    Emitter<NoteUpdateState> emit,
+  ) async {}
+
+  void _onPayloadChanged(
+    _PayloadChanged event,
+    Emitter<NoteUpdateState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        payload: event.payload,
+      ),
+    );
+  }
+
+  void _onRequested(
+    _Requested event,
+    Emitter<NoteUpdateState> emit,
+  ) async {
+    try {
+      emit(
+        state.copyWith(
+          inProcess: true,
+          success: false,
+          failureMessage: null,
+        ),
+      );
+
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      final _ = await repository.update(state.payload);
+
+      emit(
+        state.copyWith(
+          inProcess: false,
+          success: true,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          failureMessage: e.toString(),
+          inProcess: false,
+        ),
+      );
+    }
   }
 }

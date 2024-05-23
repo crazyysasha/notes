@@ -15,6 +15,7 @@ class NoteRepositoryImpl implements NoteRepository {
     if (entity.id == null) {
       throw const NotFoundException(message: 'Note can not found on database');
     }
+    print(entity.id);
     return source.delete(entity.id!);
   }
 

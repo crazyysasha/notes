@@ -4,7 +4,7 @@ import 'package:notes/core/utils/injector.dart';
 import '../data/models/models.dart';
 import '../data/sources/sources.dart';
 import '../domain/repositories/repositories.dart';
-import '../presentation/blocs/note_list_bloc/note_list_bloc.dart';
+import '../presentation/blocs/note_list/note_list_bloc.dart';
 
 Future<void> initNotesDependencies() async {
   Hive.registerAdapter(NoteModelAdapter());

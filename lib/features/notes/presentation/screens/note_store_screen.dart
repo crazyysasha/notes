@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notes/core/utils/injector.dart';
 
-import 'package:notes/features/notes/presentation/blocs/note_list_bloc/note_list_bloc.dart';
+import 'package:notes/features/notes/presentation/blocs/note_list/note_list_bloc.dart';
 import 'package:notes/features/notes/presentation/widgets/note_form.dart';
 
 import '../blocs/note_store/note_store_bloc.dart';

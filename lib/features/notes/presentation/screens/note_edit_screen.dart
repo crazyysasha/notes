@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notes/core/utils/injector.dart';
+import 'package:notes/features/notes/domain/repositories/repositories.dart';
+import 'package:notes/features/notes/presentation/blocs/note_delete/note_delete_bloc.dart';
+
+import 'package:notes/features/notes/presentation/blocs/note_list/note_list_bloc.dart';
 
 import 'package:notes/features/notes/presentation/blocs/note_update/note_update_bloc.dart';
 
@@ -60,6 +64,14 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
               ),
             );
           }
+          if (!i.contains<NoteDeleteBloc>()) {
+            i.register(
+              NoteDeleteBloc(
+                repository: i.of(),
+                entity: data,
+              ),
+            );
+          }
           return;
         },
         failure: (message) {
@@ -88,12 +100,46 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                       textAlign: TextAlign.center,
                     ),
                     actions: [
-                      FilledButton(
-                        onPressed: () {},
-                        child: const Text('yes'),
+                      BlocConsumer<NoteDeleteBloc, NoteDeleteState>(
+                        listener: (context, state) {
+                          state.whenOrNull(
+                            success: () {
+                              i.of<NoteListBloc>().add(
+                                    const NoteListEvent.loadRequested(),
+                                  );
+                              context.pop();
+                              context.pop();
+                            },
+                            failure: (message) =>
+                                ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  message,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        bloc: i.of<NoteDeleteBloc>(),
+                        builder: (context, state) {
+                          return FilledButton(
+                            onPressed: () {
+                              i.of<NoteDeleteBloc>().add(
+                                    const NoteDeleteEvent.requested(),
+                                  );
+                            },
+                            child: state.maybeWhen(
+                              inProcess: () =>
+                                  const CircularProgressIndicator.adaptive(),
+                              orElse: () => const Text('yes'),
+                            ),
+                          );
+                        },
                       ),
                       FilledButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pop();
+                        },
                         child: const Text('no'),
                       ),
                     ],
@@ -161,20 +207,37 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
         ),
         floatingActionButton: state.maybeWhen(
           orElse: () => const SizedBox(),
-          success: (data) => BlocBuilder<NoteUpdateBloc, NoteUpdateState>(
-            bloc: i.of<NoteUpdateBloc>(),
-            builder: (context, updateState) {
-              return FilledButton(
-                onPressed: () {
-                  i.of<NoteUpdateBloc>().add(
-                        const NoteUpdateEvent.requested(),
-                      );
-                },
-                child: updateState.inProcess
-                    ? const CircularProgressIndicator.adaptive()
-                    : const Text('save'),
-              );
-            },
+          success: (data) => BlocProvider(
+            create: (context) =>
+                NoteUpdateBloc(payload: data, repository: i.of()),
+            child: BlocConsumer<NoteUpdateBloc, NoteUpdateState>(
+              bloc: i.of<NoteUpdateBloc>(),
+              listener: (context, state) {
+                if (state.success) {
+                  i.of<NoteListBloc>().add(const NoteListEvent.loadRequested());
+                  context.pop();
+                }
+                if (state.failureMessage != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.failureMessage!),
+                    ),
+                  );
+                }
+              },
+              builder: (context, updateState) {
+                return FilledButton(
+                  onPressed: () {
+                    i.of<NoteUpdateBloc>().add(
+                          const NoteUpdateEvent.requested(),
+                        );
+                  },
+                  child: updateState.inProcess
+                      ? const CircularProgressIndicator.adaptive()
+                      : const Text('save'),
+                );
+              },
+            ),
           ),
         ),
       ),
