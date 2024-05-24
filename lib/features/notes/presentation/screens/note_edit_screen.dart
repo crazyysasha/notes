@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notes/core/utils/injector.dart';
-import 'package:notes/features/notes/domain/repositories/repositories.dart';
+
 import 'package:notes/features/notes/presentation/blocs/note_delete/note_delete_bloc.dart';
 
 import 'package:notes/features/notes/presentation/blocs/note_list/note_list_bloc.dart';
@@ -45,6 +45,9 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
 
     if (i.contains<NoteUpdateBloc>()) {
       i.unregister<NoteUpdateBloc>().close();
+    }
+    if (i.contains<NoteDeleteBloc>()) {
+      i.unregister<NoteDeleteBloc>().close();
     }
 
     super.dispose();
