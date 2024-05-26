@@ -10,16 +10,12 @@ import 'package:notes/features/notes/presentation/blocs/blocs.dart';
 import 'package:notes/features/notes/presentation/widgets/note_form.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
-class NoteStoreScreen extends StatefulWidget {
-  const NoteStoreScreen({super.key});
+import '../blocs/note_store/note_store_bloc.dart';
 
-  @override
-  State<NoteStoreScreen> createState() => _NoteStoreScreenState();
-}
-
-class _NoteStoreScreenState extends State<NoteStoreScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController controller = AnimationController(vsync: this);
+class NoteStoreScreen extends StatelessWidget {
+  const NoteStoreScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +151,7 @@ class _NoteStoreScreenState extends State<NoteStoreScreen>
               child: state.inProcess
                   ? const CircularProgressIndicator.adaptive()
                   : const Text(
-                      'store',
+                      'Store',
                     ),
             ),
           );

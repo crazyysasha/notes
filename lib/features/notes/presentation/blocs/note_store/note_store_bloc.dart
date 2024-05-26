@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:notes/features/notes/domain/repositories/repositories.dart';
+import 'package:notes/features/notes/presentation/theme/theme.dart';
 
 import '../../../domain/entities/entities.dart';
 
@@ -52,7 +56,13 @@ class NoteStoreBloc extends Bloc<NoteStoreEvent, NoteStoreState> {
       );
       // TODO: temp delay
       await Future.delayed(const Duration(milliseconds: 500));
-      final _ = await repository.store(state.payload);
+      final random = Random();
+      final _ = await repository.store(
+        state.payload.copyWith(
+          color: NoteStyle
+              .cardsColor[random.nextInt(NoteStyle.cardsColor.length)].value,
+        ),
+      );
       emit(
         state.copyWith(
           inProcess: false,

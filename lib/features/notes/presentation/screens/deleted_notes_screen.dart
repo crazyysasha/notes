@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/features/notes/presentation/theme/theme.dart';
 
 class DeletedNotesScreen extends StatelessWidget {
   const DeletedNotesScreen({super.key});
@@ -7,10 +8,14 @@ class DeletedNotesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('deleted notes'),
+        centerTitle: false,
+        title: Text(
+          'Deleted notes',
+          style: NoteStyle.screenTitleStyle,
+        ),
       ),
       body: ListView.builder(
-        itemBuilder: (context, index) => ListTile(),
+        itemBuilder: (context, index) => const ListTile(),
       ),
     );
   }

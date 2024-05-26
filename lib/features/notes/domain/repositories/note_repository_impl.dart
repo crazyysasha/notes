@@ -43,6 +43,7 @@ class NoteRepositoryImpl implements NoteRepository {
       NoteModel(
         title: entity.title,
         content: entity.content,
+        color: entity.color,
       ),
     );
   }
@@ -59,6 +60,7 @@ class NoteRepositoryImpl implements NoteRepository {
       model: NoteModel(
         title: entity.title,
         content: entity.content,
+        color: entity.color,
       ),
     );
   }

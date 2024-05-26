@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/core/utils/injector.dart';
 import 'package:notes/features/notes/domain/entities/note.dart';
+import 'package:notes/features/notes/presentation/theme/theme.dart';
 
 import '../blocs/note_list/note_list_bloc.dart';
 
@@ -25,7 +26,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('notes'),
+        centerTitle: false,
+        title: Text(
+          'Notes',
+          style: NoteStyle.screenTitleStyle,
+        ),
       ),
       body: BlocConsumer<NoteListBloc, NoteListState>(
         bloc: i.of<NoteListBloc>(),
@@ -83,23 +88,27 @@ class HomeScreenBody extends StatelessWidget {
         mainAxisSpacing: 10,
       ),
       itemCount: items.length,
-      itemBuilder: (context, index) => GestureDetector(
-        onTap: () => context.push('/edit/${items[index].id}'),
-        child: Card(
-          margin: EdgeInsets.zero,
-          color: Colors.amberAccent,
+      itemBuilder: (context, index) => Card(
+        color: Color(items[index].color ?? 0x00ffff),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () => context.push('/edit/${items[index].id}'),
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(items[index].title),
+                Text(
+                  items[index].title,
+                  style: NoteStyle.cardTitleStyle,
+                  maxLines: 2,
+                ),
                 const SizedBox(
                   height: 5,
                 ),
                 Text(
                   items[index].content,
-                  maxLines: 4,
+                  maxLines: 6,
                 ),
               ],
             ),

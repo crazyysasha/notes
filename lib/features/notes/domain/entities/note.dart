@@ -13,5 +13,6 @@ class Note with _$Note {
     required String content,
     Category? category,
     @Default([]) List<Tag> tags,
+    int? color,
   }) = _Note;
 }
