@@ -73,7 +73,7 @@ void main() {
       final categoryToAdd = CategoryModel(name: 'Test Category');
       final id = await box.add(categoryToAdd);
 
-      await repository.delete(Category(id: id, name: 'Test Category'));
+      await repository.delete(id);
 
       final result = box.get(id);
 

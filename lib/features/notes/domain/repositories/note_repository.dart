@@ -9,7 +9,7 @@ abstract interface class NoteRepository {
   });
   FutureOr<Note> getById(int id);
   FutureOr<int> store(Note entity);
-  FutureOr<void> delete(Note entity);
+  FutureOr<void> delete(int entityId);
   FutureOr<void> update(Note entity);
 }
 
@@ -18,8 +18,8 @@ class MockNoteRepository implements NoteRepository {
     const Note(title: 'test 1', content: 'test content 1'),
   ];
   @override
-  FutureOr<void> delete(Note entity) {
-    items.remove(entity);
+  FutureOr<void> delete(int entityId) {
+    items.remove(entityId);
   }
 
   @override

@@ -8,5 +8,5 @@ abstract interface class CategoryRepository {
   FutureOr<int> store(Category entity);
   FutureOr<Category> firstOrStore(Category entity);
   FutureOr<void> update(Category entity);
-  FutureOr<void> delete(Category entity);
+  FutureOr<void> delete(int entityId);
 }

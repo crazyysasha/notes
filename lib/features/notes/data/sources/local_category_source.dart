@@ -63,7 +63,7 @@ class LocalCategorySource implements CategorySource {
     int? id,
     CategoryModel? findingModel,
   }) async {
-    assert(id == null && findingModel == null, '');
+    assert(id == null || findingModel == null, '');
     try {
       if (id != null) {
         return getById(id);

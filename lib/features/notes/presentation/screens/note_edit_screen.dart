@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notes/core/utils/injector.dart';
-import 'package:notes/features/notes/domain/repositories/repositories.dart';
+
 import 'package:notes/features/notes/presentation/blocs/note_delete/note_delete_bloc.dart';
 
 import 'package:notes/features/notes/presentation/blocs/note_list/note_list_bloc.dart';
@@ -46,6 +46,9 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
     if (i.contains<NoteUpdateBloc>()) {
       i.unregister<NoteUpdateBloc>().close();
     }
+    if (i.contains<NoteDeleteBloc>()) {
+      i.unregister<NoteDeleteBloc>().close();
+    }
 
     super.dispose();
   }
@@ -64,11 +67,11 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
               ),
             );
           }
+
           if (!i.contains<NoteDeleteBloc>()) {
             i.register(
               NoteDeleteBloc(
                 repository: i.of(),
-                entity: data,
               ),
             );
           }
@@ -76,7 +79,6 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
         },
         failure: (message) {
           context.pop();
-
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(message),
@@ -121,17 +123,20 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                           );
                         },
                         bloc: i.of<NoteDeleteBloc>(),
-                        builder: (context, state) {
-                          return FilledButton(
-                            onPressed: () {
-                              i.of<NoteDeleteBloc>().add(
-                                    const NoteDeleteEvent.requested(),
-                                  );
-                            },
-                            child: state.maybeWhen(
-                              inProcess: () =>
-                                  const CircularProgressIndicator.adaptive(),
-                              orElse: () => const Text('yes'),
+                        builder: (context, deleteState) {
+                          return state.maybeWhen(
+                            orElse: () => const SizedBox(),
+                            success: (data) => FilledButton(
+                              onPressed: () {
+                                i.of<NoteDeleteBloc>().add(
+                                      NoteDeleteEvent.requested(id: data.id!),
+                                    );
+                              },
+                              child: deleteState.maybeWhen(
+                                inProcess: () =>
+                                    const CircularProgressIndicator.adaptive(),
+                                orElse: () => const Text('yes'),
+                              ),
                             ),
                           );
                         },
@@ -171,7 +176,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
               child: CircularProgressIndicator.adaptive(),
             );
           },
-          success: (Note data) {
+          success: (data) {
             return BlocBuilder<NoteUpdateBloc, NoteUpdateState>(
               bloc: i.of<NoteUpdateBloc>(),
               builder: (context, updateState) {

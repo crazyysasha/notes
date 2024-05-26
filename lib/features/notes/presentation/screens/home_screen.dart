@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,6 +76,7 @@ class HomeScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      padding: const EdgeInsets.all(10),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 10,
@@ -84,6 +86,7 @@ class HomeScreenBody extends StatelessWidget {
       itemBuilder: (context, index) => GestureDetector(
         onTap: () => context.push('/edit/${items[index].id}'),
         child: Card(
+          margin: EdgeInsets.zero,
           color: Colors.amberAccent,
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -103,7 +106,6 @@ class HomeScreenBody extends StatelessWidget {
           ),
         ),
       ),
-      padding: const EdgeInsets.all(10),
     );
   }
 }

@@ -8,9 +8,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 
 void main() {
-  i.register(TalkerFlutter.init());
-
-  runTalkerZonedGuarded(i.of(), () async {
+  runTalkerZonedGuarded(i.register(TalkerFlutter.init()), () async {
     WidgetsFlutterBinding.ensureInitialized();
 
     await Hive.initFlutter();
@@ -25,17 +23,17 @@ void main() {
 
     await initNotesDependencies();
 
-    runApp(const MyApp());
+    runApp(MyApp());
   }, (error, stack) {});
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
+  final router = NotesRouter();
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: NotesRouter().router,
+      routerConfig: router.config,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amberAccent),
         useMaterial3: true,

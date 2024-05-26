@@ -52,7 +52,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
   }
 
   @override
-  Future<void> delete(Category entity) async {
-    await source.delete(entity.id!);
+  Future<void> delete(int entityId) async {
+    await source.delete(entityId);
   }
 }

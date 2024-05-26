@@ -1,9 +1,12 @@
 import 'package:go_router/go_router.dart';
+
 import 'package:notes/core/widgets/widgets.dart';
+import 'package:notes/features/notes/presentation/screens/category_store_screen.dart';
 import 'package:notes/features/notes/presentation/screens/screens.dart';
+import 'package:sheet/route.dart';
 
 class NotesRouter {
-  final GoRouter router = GoRouter(
+  final GoRouter config = GoRouter(
     initialLocation: '/',
     routes: [
       StatefulShellRoute.indexedStack(
@@ -17,7 +20,6 @@ class NotesRouter {
                 name: 'notes',
                 path: '/',
                 builder: (context, state) => const HomeScreen(),
-                routes: [],
               ),
             ],
           ),
@@ -42,7 +44,18 @@ class NotesRouter {
       GoRoute(
         name: 'note.store',
         path: '/store',
-        builder: (context, state) => const NoteStoreScreen(),
+        pageBuilder: (context, state) => const MaterialExtendedPage(
+          child: NoteStoreScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'category/store',
+            pageBuilder: (context, state) => const CupertinoSheetPage(
+              // fit: SheetFit.loose,
+              child: CategoryStoreScreen(),
+            ),
+          ),
+        ],
       ),
     ],
   );

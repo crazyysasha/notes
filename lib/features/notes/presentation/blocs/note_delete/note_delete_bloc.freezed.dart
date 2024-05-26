@@ -19,19 +19,19 @@ mixin _$NoteDeleteEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() requested,
+    required TResult Function(int id) requested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? requested,
+    TResult? Function(int id)? requested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? requested,
+    TResult Function(int id)? requested,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() requested,
+    required TResult Function(int id) requested,
   }) {
     return started();
   }
@@ -122,7 +122,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? requested,
+    TResult? Function(int id)? requested,
   }) {
     return started?.call();
   }
@@ -131,7 +131,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? requested,
+    TResult Function(int id)? requested,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -181,6 +181,8 @@ abstract class _$$RequestedImplCopyWith<$Res> {
   factory _$$RequestedImplCopyWith(
           _$RequestedImpl value, $Res Function(_$RequestedImpl) then) =
       __$$RequestedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int id});
 }
 
 /// @nodoc
@@ -190,54 +192,78 @@ class __$$RequestedImplCopyWithImpl<$Res>
   __$$RequestedImplCopyWithImpl(
       _$RequestedImpl _value, $Res Function(_$RequestedImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$RequestedImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$RequestedImpl implements _Requested {
-  const _$RequestedImpl();
+  const _$RequestedImpl({required this.id});
+
+  @override
+  final int id;
 
   @override
   String toString() {
-    return 'NoteDeleteEvent.requested()';
+    return 'NoteDeleteEvent.requested(id: $id)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$RequestedImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$RequestedImpl &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RequestedImplCopyWith<_$RequestedImpl> get copyWith =>
+      __$$RequestedImplCopyWithImpl<_$RequestedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() requested,
+    required TResult Function(int id) requested,
   }) {
-    return requested();
+    return requested(id);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? requested,
+    TResult? Function(int id)? requested,
   }) {
-    return requested?.call();
+    return requested?.call(id);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? requested,
+    TResult Function(int id)? requested,
     required TResult orElse(),
   }) {
     if (requested != null) {
-      return requested();
+      return requested(id);
     }
     return orElse();
   }
@@ -275,7 +301,12 @@ class _$RequestedImpl implements _Requested {
 }
 
 abstract class _Requested implements NoteDeleteEvent {
-  const factory _Requested() = _$RequestedImpl;
+  const factory _Requested({required final int id}) = _$RequestedImpl;
+
+  int get id;
+  @JsonKey(ignore: true)
+  _$$RequestedImplCopyWith<_$RequestedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

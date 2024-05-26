@@ -11,12 +11,8 @@ class NoteRepositoryImpl implements NoteRepository {
 
   NoteRepositoryImpl({required this.source});
   @override
-  FutureOr<void> delete(Note entity) {
-    if (entity.id == null) {
-      throw const NotFoundException(message: 'Note can not found on database');
-    }
-    print(entity.id);
-    return source.delete(entity.id!);
+  FutureOr<void> delete(int entityId) {
+    return source.delete(entityId);
   }
 
   @override
@@ -27,6 +23,8 @@ class NoteRepositoryImpl implements NoteRepository {
   }) async {
     return (await source.get(
       search: search,
+      categoryId: categoryId,
+      tagIds: tagIds,
     ))
         .map((e) => e.toEntity())
         .toList();

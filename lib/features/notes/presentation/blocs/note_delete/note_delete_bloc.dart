@@ -1,10 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:notes/features/notes/domain/entities/entities.dart';
-import 'package:notes/features/notes/domain/repositories/repositories.dart';
 
-import '../../../domain/entities/note.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:notes/features/notes/domain/repositories/repositories.dart';
 
 part 'note_delete_event.dart';
 part 'note_delete_state.dart';
@@ -12,11 +10,12 @@ part 'note_delete_bloc.freezed.dart';
 
 class NoteDeleteBloc extends Bloc<NoteDeleteEvent, NoteDeleteState> {
   final NoteRepository repository;
-  final Note entity;
-  NoteDeleteBloc({required this.repository, required this.entity})
-      : super(const _Initial()) {
+
+  NoteDeleteBloc({
+    required this.repository,
+  }) : super(const _Initial()) {
     on<_Started>((event, emit) {
-      add(const _Requested());
+      // TODO: why ?
     });
 
     on<_Requested>((event, emit) async {
@@ -26,7 +25,9 @@ class NoteDeleteBloc extends Bloc<NoteDeleteEvent, NoteDeleteState> {
         // TODO: remove delay
         await Future.delayed(const Duration(milliseconds: 500));
 
-        await repository.delete(entity);
+        await repository.delete(
+          event.id,
+        );
 
         emit(const NoteDeleteState.success());
       } catch (e) {
