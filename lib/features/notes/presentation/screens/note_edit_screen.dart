@@ -90,7 +90,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
       ),
       builder: (context, state) => Scaffold(
         appBar: AppBar(
-          title: const Text('data'),
+          title: const Text('My note'),
           actions: [
             IconButton(
               onPressed: () {
@@ -99,7 +99,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                   builder: (context) => AlertDialog(
                     actionsAlignment: MainAxisAlignment.spaceAround,
                     title: const Text(
-                      'delete note?',
+                      'Delete note?',
                       textAlign: TextAlign.center,
                     ),
                     actions: [
@@ -108,7 +108,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                           state.whenOrNull(
                             success: () {
                               i.of<NoteListBloc>().add(
-                                    const NoteListEvent.loadRequested(),
+                                    NoteListEvent.loadRequested(),
                                   );
                               context.pop();
                               context.pop();
@@ -134,7 +134,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                             child: state.maybeWhen(
                               inProcess: () =>
                                   const CircularProgressIndicator.adaptive(),
-                              orElse: () => const Text('yes'),
+                              orElse: () => const Text('Yes'),
                             ),
                           );
                         },
@@ -143,13 +143,13 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                         onPressed: () {
                           context.pop();
                         },
-                        child: const Text('no'),
+                        child: const Text('No'),
                       ),
                     ],
                   ),
                 );
               },
-              icon: const Icon(Icons.cancel_outlined),
+              icon: const Icon(Icons.delete_outline_rounded),
             ),
           ],
         ),
@@ -158,12 +158,12 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
             return Center(
               child: Column(
                 children: [
-                  const Text('something went wrong'),
+                  const Text('Something went wrong!'),
                   FilledButton(
                     onPressed: () {
                       context.pop();
                     },
-                    child: const Text('try again'),
+                    child: const Text('Please try again'),
                   ),
                 ],
               ),
@@ -201,7 +201,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                         ),
                       );
                     },
-                    child: const Text('try  again'),
+                    child: const Text('Please try again'),
                   ),
                 ],
               ),
@@ -237,7 +237,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                   },
                   child: updateState.inProcess
                       ? const CircularProgressIndicator.adaptive()
-                      : const Text('save'),
+                      : const Text('Save'),
                 );
               },
             ),

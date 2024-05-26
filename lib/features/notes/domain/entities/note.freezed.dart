@@ -21,6 +21,7 @@ mixin _$Note {
   String get content => throw _privateConstructorUsedError;
   Category? get category => throw _privateConstructorUsedError;
   List<Tag> get tags => throw _privateConstructorUsedError;
+  int? get color => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NoteCopyWith<Note> get copyWith => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $NoteCopyWith<$Res> {
       String title,
       String content,
       Category? category,
-      List<Tag> tags});
+      List<Tag> tags,
+      int? color});
 
   $CategoryCopyWith<$Res>? get category;
 }
@@ -59,6 +61,7 @@ class _$NoteCopyWithImpl<$Res, $Val extends Note>
     Object? content = null,
     Object? category = freezed,
     Object? tags = null,
+    Object? color = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -81,6 +84,10 @@ class _$NoteCopyWithImpl<$Res, $Val extends Note>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<Tag>,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -109,7 +116,8 @@ abstract class _$$NoteImplCopyWith<$Res> implements $NoteCopyWith<$Res> {
       String title,
       String content,
       Category? category,
-      List<Tag> tags});
+      List<Tag> tags,
+      int? color});
 
   @override
   $CategoryCopyWith<$Res>? get category;
@@ -130,6 +138,7 @@ class __$$NoteImplCopyWithImpl<$Res>
     Object? content = null,
     Object? category = freezed,
     Object? tags = null,
+    Object? color = freezed,
   }) {
     return _then(_$NoteImpl(
       id: freezed == id
@@ -152,6 +161,10 @@ class __$$NoteImplCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<Tag>,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -164,7 +177,8 @@ class _$NoteImpl implements _Note {
       required this.title,
       required this.content,
       this.category,
-      final List<Tag> tags = const []})
+      final List<Tag> tags = const [],
+      this.color})
       : _tags = tags;
 
   @override
@@ -185,8 +199,11 @@ class _$NoteImpl implements _Note {
   }
 
   @override
+  final int? color;
+
+  @override
   String toString() {
-    return 'Note(id: $id, title: $title, content: $content, category: $category, tags: $tags)';
+    return 'Note(id: $id, title: $title, content: $content, category: $category, tags: $tags, color: $color)';
   }
 
   @override
@@ -199,12 +216,13 @@ class _$NoteImpl implements _Note {
             (identical(other.content, content) || other.content == content) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.color, color) || other.color == color));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, title, content, category,
-      const DeepCollectionEquality().hash(_tags));
+      const DeepCollectionEquality().hash(_tags), color);
 
   @JsonKey(ignore: true)
   @override
@@ -219,7 +237,8 @@ abstract class _Note implements Note {
       required final String title,
       required final String content,
       final Category? category,
-      final List<Tag> tags}) = _$NoteImpl;
+      final List<Tag> tags,
+      final int? color}) = _$NoteImpl;
 
   @override
   int? get id;
@@ -231,6 +250,8 @@ abstract class _Note implements Note {
   Category? get category;
   @override
   List<Tag> get tags;
+  @override
+  int? get color;
   @override
   @JsonKey(ignore: true)
   _$$NoteImplCopyWith<_$NoteImpl> get copyWith =>

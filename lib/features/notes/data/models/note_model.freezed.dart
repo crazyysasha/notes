@@ -32,6 +32,10 @@ mixin _$NoteModel {
   List<TagModel> get tags => throw _privateConstructorUsedError;
   @HiveField(4)
   set tags(List<TagModel> value) => throw _privateConstructorUsedError;
+  @HiveField(5)
+  int? get color => throw _privateConstructorUsedError;
+  @HiveField(5)
+  set color(int? value) => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NoteModelCopyWith<NoteModel> get copyWith =>
@@ -47,7 +51,8 @@ abstract class $NoteModelCopyWith<$Res> {
       {@HiveField(0) String title,
       @HiveField(1) String content,
       @HiveField(2) CategoryModel? category,
-      @HiveField(4) List<TagModel> tags});
+      @HiveField(4) List<TagModel> tags,
+      @HiveField(5) int? color});
 
   $CategoryModelCopyWith<$Res>? get category;
 }
@@ -69,6 +74,7 @@ class _$NoteModelCopyWithImpl<$Res, $Val extends NoteModel>
     Object? content = null,
     Object? category = freezed,
     Object? tags = null,
+    Object? color = freezed,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -87,6 +93,10 @@ class _$NoteModelCopyWithImpl<$Res, $Val extends NoteModel>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<TagModel>,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -115,7 +125,8 @@ abstract class _$$NoteModelImplCopyWith<$Res>
       {@HiveField(0) String title,
       @HiveField(1) String content,
       @HiveField(2) CategoryModel? category,
-      @HiveField(4) List<TagModel> tags});
+      @HiveField(4) List<TagModel> tags,
+      @HiveField(5) int? color});
 
   @override
   $CategoryModelCopyWith<$Res>? get category;
@@ -136,6 +147,7 @@ class __$$NoteModelImplCopyWithImpl<$Res>
     Object? content = null,
     Object? category = freezed,
     Object? tags = null,
+    Object? color = freezed,
   }) {
     return _then(_$NoteModelImpl(
       title: null == title
@@ -154,6 +166,10 @@ class __$$NoteModelImplCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<TagModel>,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -166,7 +182,8 @@ class _$NoteModelImpl extends _NoteModel {
       {@HiveField(0) required this.title,
       @HiveField(1) required this.content,
       @HiveField(2) this.category,
-      @HiveField(4) List<TagModel> tags = const []})
+      @HiveField(4) List<TagModel> tags = const [],
+      @HiveField(5) this.color})
       : _tags = tags,
         super._();
 
@@ -190,8 +207,12 @@ class _$NoteModelImpl extends _NoteModel {
   }
 
   @override
+  @HiveField(5)
+  int? color;
+
+  @override
   String toString() {
-    return 'NoteModel(title: $title, content: $content, category: $category, tags: $tags)';
+    return 'NoteModel(title: $title, content: $content, category: $category, tags: $tags, color: $color)';
   }
 
   @override
@@ -203,12 +224,13 @@ class _$NoteModelImpl extends _NoteModel {
             (identical(other.content, content) || other.content == content) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.color, color) || other.color == color));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, title, content, category,
-      const DeepCollectionEquality().hash(_tags));
+      const DeepCollectionEquality().hash(_tags), color);
 
   @JsonKey(ignore: true)
   @override
@@ -222,7 +244,8 @@ abstract class _NoteModel extends NoteModel {
       {@HiveField(0) required String title,
       @HiveField(1) required String content,
       @HiveField(2) CategoryModel? category,
-      @HiveField(4) List<TagModel> tags}) = _$NoteModelImpl;
+      @HiveField(4) List<TagModel> tags,
+      @HiveField(5) int? color}) = _$NoteModelImpl;
   _NoteModel._() : super._();
 
   @override
@@ -245,6 +268,11 @@ abstract class _NoteModel extends NoteModel {
   List<TagModel> get tags;
   @HiveField(4)
   set tags(List<TagModel> value);
+  @override
+  @HiveField(5)
+  int? get color;
+  @HiveField(5)
+  set color(int? value);
   @override
   @JsonKey(ignore: true)
   _$$NoteModelImplCopyWith<_$NoteModelImpl> get copyWith =>

@@ -9,9 +9,9 @@ class ShellScaffold extends StatelessWidget {
   });
 
   final Map<String, IconData> icons = {
-    'default': Icons.home,
-    'notes': Icons.notes_outlined,
-    'deleted notes': Icons.delete_outline_outlined,
+    'Default': Icons.home,
+    'Notes': Icons.notes_outlined,
+    'Deleted notes': Icons.delete_outline_outlined,
   };
 
   @override
@@ -24,7 +24,7 @@ class ShellScaffold extends StatelessWidget {
         items: [
           for (final branch in navigationShell.route.branches)
             BottomNavigationBarItem(
-              label: branch.defaultRoute!.name ?? 'fuck',
+              label: branch.defaultRoute!.name ?? 'default',
               icon: Icon(icons[branch.defaultRoute?.name] ?? icons['default']),
             ),
         ],

@@ -17,6 +17,7 @@ class NoteModel extends HiveObject with _$NoteModel {
     @HiveField(1) required String content,
     @HiveField(2) CategoryModel? category,
     @HiveField(4) @Default([]) List<TagModel> tags,
+    @HiveField(5) int? color,
   }) = _NoteModel;
 
   Note toEntity() {
@@ -24,6 +25,7 @@ class NoteModel extends HiveObject with _$NoteModel {
       id: key,
       title: title,
       content: content,
+      color: color,
       category: category?.toEntity(),
       tags: tags
           .map(

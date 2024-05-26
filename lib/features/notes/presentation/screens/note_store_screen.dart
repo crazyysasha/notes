@@ -9,7 +9,9 @@ import 'package:notes/features/notes/presentation/widgets/note_form.dart';
 import '../blocs/note_store/note_store_bloc.dart';
 
 class NoteStoreScreen extends StatelessWidget {
-  const NoteStoreScreen({super.key});
+  const NoteStoreScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class NoteStoreScreen extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('new note'),
+              title: const Text('New note'),
             ),
             body: NoteStoreBody(
               loading: state.inProcess,
@@ -56,7 +58,7 @@ class NoteStoreScreen extends StatelessWidget {
               child: state.inProcess
                   ? const CircularProgressIndicator.adaptive()
                   : const Text(
-                      'store',
+                      'Store',
                     ),
             ),
           );

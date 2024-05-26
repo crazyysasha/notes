@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/features/notes/presentation/theme/theme.dart';
 
 class NoteForm extends StatefulWidget {
   final void Function(String title, String content)? onPayloadChanged;
@@ -34,22 +35,53 @@ class _NoteFormState extends State<NoteForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      onChanged: () => widget.onPayloadChanged?.call(
-        _titleController.text,
-        _contentController.text,
-      ),
-      child: Column(
-        children: [
-          TextFormField(
-            controller: _titleController,
-            enabled: widget.enabled,
+    return Scaffold(
+      body: Form(
+        onChanged: () => widget.onPayloadChanged?.call(
+          _titleController.text,
+          _contentController.text,
+        ),
+        child: SafeArea(
+          maintainBottomViewPadding: true,
+          child: Column(
+            children: [
+              TextFormField(
+                maxLines: 1,
+                style: NoteStyle.titleStyle,
+                decoration: InputDecoration(
+                  hintText: 'Enter title of note...',
+                  hintStyle: NoteStyle.titleStyle,
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                ),
+                controller: _titleController,
+                enabled: widget.enabled,
+                // maxLines: 2,
+              ),
+              Flexible(
+                child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: IntrinsicHeight(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Enter content of note...',
+                        hintStyle: TextStyle(),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 24),
+                      ),
+                      controller: _contentController,
+                      enabled: widget.enabled,
+                      maxLines: null,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          TextFormField(
-            controller: _contentController,
-            enabled: widget.enabled,
-          ),
-        ],
+        ),
       ),
     );
   }

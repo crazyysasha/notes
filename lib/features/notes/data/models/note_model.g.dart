@@ -21,19 +21,22 @@ class NoteModelAdapter extends TypeAdapter<_$NoteModelImpl> {
       content: fields[1] as String,
       category: fields[2] as CategoryModel?,
       tags: (fields[4] as List).cast<TagModel>(),
+      color: fields[5] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$NoteModelImpl obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
       ..write(obj.content)
       ..writeByte(2)
       ..write(obj.category)
+      ..writeByte(5)
+      ..write(obj.color)
       ..writeByte(4)
       ..write(obj.tags);
   }

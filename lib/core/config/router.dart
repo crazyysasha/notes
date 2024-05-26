@@ -14,7 +14,7 @@ class NotesRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                name: 'notes',
+                name: 'Notes',
                 path: '/',
                 builder: (context, state) => const HomeScreen(),
                 routes: [],
@@ -24,7 +24,7 @@ class NotesRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                name: 'deleted notes',
+                name: 'Deleted notes',
                 path: '/deleted',
                 builder: (context, state) => const DeletedNotesScreen(),
               ),
