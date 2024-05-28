@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:notes/features/notes/domain/entities/entities.dart';
 import 'package:notes/features/notes/domain/repositories/repositories.dart';
@@ -28,8 +29,16 @@ class CategoryListBloc extends Bloc<CategoryListEvent, CategoryListState> {
             failureMessage: null,
           ),
         );
+        if (kDebugMode) {
+          await Future.delayed(
+            const Duration(
+              milliseconds: 4000,
+            ),
+          );
+        }
 
         final data = await repository.get();
+
         emit(
           state.copyWith(
             inProcess: false,

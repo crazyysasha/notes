@@ -129,15 +129,23 @@ class __$$StartedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$StartedImpl implements _Started {
+class _$StartedImpl with DiagnosticableTreeMixin implements _Started {
   const _$StartedImpl({required this.id});
 
   @override
   final int id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'NoteViewEvent.started(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'NoteViewEvent.started'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -266,15 +274,25 @@ class __$$LoadRequestedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadRequestedImpl implements _LoadRequested {
+class _$LoadRequestedImpl
+    with DiagnosticableTreeMixin
+    implements _LoadRequested {
   const _$LoadRequestedImpl({required this.id});
 
   @override
   final int id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'NoteViewEvent.loadRequested(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'NoteViewEvent.loadRequested'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -458,12 +476,18 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl implements _Initial {
+class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   const _$InitialImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'NoteViewState.initial()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'NoteViewState.initial'));
   }
 
   @override
@@ -572,12 +596,18 @@ class __$$InProcessImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InProcessImpl implements _InProcess {
+class _$InProcessImpl with DiagnosticableTreeMixin implements _InProcess {
   const _$InProcessImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'NoteViewState.inProcess()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'NoteViewState.inProcess'));
   }
 
   @override
@@ -711,15 +741,23 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SuccessImpl implements _Success {
+class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
   const _$SuccessImpl({required this.data});
 
   @override
   final Note data;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'NoteViewState.success(data: $data)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'NoteViewState.success'))
+      ..add(DiagnosticsProperty('data', data));
   }
 
   @override
@@ -856,15 +894,23 @@ class __$$FailureImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FailureImpl implements _Failure {
+class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
   const _$FailureImpl({required this.message});
 
   @override
   final String message;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'NoteViewState.failure(message: $message)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'NoteViewState.failure'))
+      ..add(DiagnosticsProperty('message', message));
   }
 
   @override

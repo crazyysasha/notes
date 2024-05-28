@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,10 +6,9 @@ import 'package:notes/core/utils/injector.dart';
 
 import 'package:notes/features/notes/presentation/blocs/blocs.dart';
 
-import 'package:notes/features/notes/presentation/widgets/note_form.dart';
+import 'package:notes/features/notes/presentation/widgets/note_store_body.dart';
+import 'package:notes/features/notes/presentation/widgets/pull_down_button_with_entity_title.dart';
 import 'package:pull_down_button/pull_down_button.dart';
-
-import '../blocs/note_store/note_store_bloc.dart';
 
 class NoteStoreScreen extends StatelessWidget {
   const NoteStoreScreen({
@@ -19,15 +17,21 @@ class NoteStoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NoteStoreBloc(
-        repository: i.of(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => NoteStoreBloc(
+            repository: i.of(),
+          ),
+        ),
+        BlocProvider.value(
+          value: i.of<CategoryListBloc>(),
+        ),
+      ],
       child: BlocConsumer<NoteStoreBloc, NoteStoreState>(
         listener: (context, state) {
           if (state.success) {
-            i.of<NoteListBloc>().add(const NoteListEvent.loadRequested());
-            context.pop();
+            context.pop(true);
           }
 
           if (state.failureMessage != null) {
@@ -38,109 +42,50 @@ class NoteStoreScreen extends StatelessWidget {
             );
           }
         },
-        builder: (context, state) {
+        builder: (context, noteStoreState) {
+          final categoryListState = context.watch<CategoryListBloc>().state;
+
           return Scaffold(
             appBar: AppBar(
-              title: BlocProvider.value(
-                value: i.of<CategoryListBloc>(),
-                child: BlocBuilder<CategoryListBloc, CategoryListState>(
-                  builder: (context, catState) {
-                    context.watch<NoteStoreBloc>();
-                    context.watch<CategoryListBloc>();
-                    return PullDownButton(
-                      onCanceled: () {},
-                      itemBuilder: (context) {
-                        return [
-                          const PullDownMenuHeader(
-                            leading: Icon(CupertinoIcons.bars),
-                            title: 'Category',
+              title: PullDownButtonWithEntityTitle(
+                titleTextBuilder: (entity) {
+                  return entity?.name ?? 'Uncategoried';
+                },
+                headerTitleText: 'Category',
+                onSelected: (category) {
+                  context.read<NoteStoreBloc>().add(
+                        NoteStoreEvent.payloadChanged(
+                          payload: noteStoreState.payload.copyWith(
+                            category: category,
                           ),
-
-                          PullDownMenuItem.selectable(
-                            onTap: () {
-                              context.read<NoteStoreBloc>().add(
-                                    NoteStoreEvent.payloadChanged(
-                                      payload: state.payload.copyWith(
-                                        category: null,
-                                      ),
-                                    ),
-                                  );
-                            },
-                            title: 'Uncategoried',
-                            selected: state.payload.category == null,
-                          ),
-                          for (final cat in catState.data)
-                            PullDownMenuItem.selectable(
-                              onTap: () {
-                                context.read<NoteStoreBloc>().add(
-                                      NoteStoreEvent.payloadChanged(
-                                        payload: state.payload.copyWith(
-                                          category: cat,
-                                        ),
-                                      ),
-                                    );
-                              },
-                              title: cat.name,
-                              selected: state.payload.category == cat,
-                            ),
-                          PullDownMenuItem(
-                            onTap: () {
-                              context.push('/store/category/store');
-                            },
-                            title: 'create new category',
-                          ),
-
-                          // const PullDownMenuDivider.large(),
-                          // const PullDownMenuHeader(
-                          //   leading: Icon(CupertinoIcons.tag),
-                          //   title: 'Tags',
-                          // ),
-                          // PullDownMenuItem.selectable(
-                          //   onTap: () {},
-                          //   title: 'Uncategoried',
-                          //   selected: true,
-                          // ),
-                          // PullDownMenuItem(
-                          //   tapHandler: (context, onTap) => onTap?.call(),
-                          //   onTap: () {},
-                          //   title: 'create new tag',
-                          // ),
-                        ];
-                      },
-                      buttonBuilder: (context, showMenu) => TextButton(
-                        onPressed: showMenu,
-                        onLongPress: showMenu,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                                state.payload.category?.name ?? 'Uncategoried'),
-                            const SizedBox.square(
-                              dimension: 12,
-                            ),
-                            const Icon(
-                              CupertinoIcons.ellipsis_circle,
-                            ),
-                          ],
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                },
+                entity: noteStoreState.payload.category,
+                entities: categoryListState.data,
+                additionalItems: [
+                  PullDownMenuItem(
+                    onTap: () {
+                      context.push('/store/category/store');
+                    },
+                    title: 'create new category',
+                  ),
+                ],
               ),
             ),
             body: NoteStoreBody(
-              loading: state.inProcess,
-              failureMessage: state.failureMessage,
-              onPayloadChanged: (title, content) =>
-                  context.read<NoteStoreBloc>().add(
-                        NoteStoreEvent.payloadChanged(
-                          payload: state.payload.copyWith(
-                            title: title,
-                            content: content,
-                          ),
+              loading: noteStoreState.inProcess,
+              failureMessage: noteStoreState.failureMessage,
+              onPayloadChanged: (title, content) {
+                context.read<NoteStoreBloc>().add(
+                      NoteStoreEvent.payloadChanged(
+                        payload: noteStoreState.payload.copyWith(
+                          title: title,
+                          content: content,
                         ),
                       ),
+                    );
+              },
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
@@ -148,7 +93,7 @@ class NoteStoreScreen extends StatelessWidget {
                       const NoteStoreEvent.requested(),
                     );
               },
-              child: state.inProcess
+              child: noteStoreState.inProcess
                   ? const CircularProgressIndicator.adaptive()
                   : const Text(
                       'Store',
@@ -157,33 +102,6 @@ class NoteStoreScreen extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class NoteStoreBody extends StatelessWidget {
-  final bool loading;
-  final String? failureMessage;
-  const NoteStoreBody({
-    super.key,
-    this.loading = false,
-    this.failureMessage,
-    this.onPayloadChanged,
-  });
-  final void Function(String title, String content)? onPayloadChanged;
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverFillRemaining(
-          hasScrollBody: false,
-          fillOverscroll: false,
-          child: NoteForm(
-            onPayloadChanged: onPayloadChanged,
-            enabled: !loading,
-          ),
-        )
-      ],
     );
   }
 }

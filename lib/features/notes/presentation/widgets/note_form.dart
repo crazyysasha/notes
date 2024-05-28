@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes/features/notes/presentation/theme/theme.dart';
 
 class NoteForm extends StatefulWidget {
   final void Function(String title, String content)? onPayloadChanged;
@@ -47,12 +46,10 @@ class _NoteFormState extends State<NoteForm> {
             children: [
               TextFormField(
                 maxLines: 1,
-                style: NoteStyle.titleStyle,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter title of note...',
-                  hintStyle: NoteStyle.titleStyle,
                   border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
+                  contentPadding: EdgeInsets.symmetric(
                     horizontal: 24,
                     vertical: 12,
                   ),
@@ -68,7 +65,6 @@ class _NoteFormState extends State<NoteForm> {
                     child: TextFormField(
                       decoration: const InputDecoration(
                         hintText: 'Enter content of note...',
-                        hintStyle: TextStyle(),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 24),
                       ),

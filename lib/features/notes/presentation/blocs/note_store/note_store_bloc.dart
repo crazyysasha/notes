@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:notes/features/notes/domain/repositories/repositories.dart';
-import 'package:notes/features/notes/presentation/theme/theme.dart';
 
 import '../../../domain/entities/entities.dart';
 
@@ -23,6 +24,16 @@ class NoteStoreBloc extends Bloc<NoteStoreEvent, NoteStoreState> {
     on(_onPayloadChanged);
     on(_onRequested);
   }
+  List<Color> cardsColor = [
+    Colors.white,
+    Colors.red.shade100,
+    Colors.pink.shade100,
+    Colors.orange.shade100,
+    Colors.yellow.shade100,
+    Colors.green.shade100,
+    Colors.blue.shade100,
+    Colors.blueGrey.shade100,
+  ];
 
   void _onStarted(
     _Started event,
@@ -54,13 +65,19 @@ class NoteStoreBloc extends Bloc<NoteStoreEvent, NoteStoreState> {
           failureMessage: null,
         ),
       );
-      // TODO: temp delay
-      await Future.delayed(const Duration(milliseconds: 500));
+      // TODO: remove delay
+      if (kDebugMode) {
+        await Future.delayed(
+          const Duration(
+            milliseconds: 500,
+          ),
+        );
+      }
+
       final random = Random();
       final _ = await repository.store(
         state.payload.copyWith(
-          color: NoteStyle
-              .cardsColor[random.nextInt(NoteStyle.cardsColor.length)].value,
+          color: cardsColor[random.nextInt(cardsColor.length)].value,
         ),
       );
       emit(

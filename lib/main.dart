@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notes/core/config/router.dart';
+import 'package:notes/core/config/theme.dart';
 import 'package:notes/core/utils/injector.dart';
 import 'package:notes/features/notes/application/di.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -33,11 +34,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: router.config,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amberAccent),
-        useMaterial3: true,
-      ),
+      routerConfig: NotesRouter().config,
+      theme: AppTheme.theme,
     );
   }
 }

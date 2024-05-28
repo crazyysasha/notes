@@ -31,6 +31,7 @@ class CategoryStoreBloc extends Bloc<CategoryStoreEvent, CategoryStoreState> {
             failureMessage: '',
           ),
         );
+        // TODO: remove delay
         if (kDebugMode) {
           await Future.delayed(
             const Duration(

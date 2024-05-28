@@ -19,19 +19,19 @@ mixin _$NoteListEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() loadRequested,
+    required TResult Function(String? search) loadRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? loadRequested,
+    TResult? Function(String? search)? loadRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? loadRequested,
+    TResult Function(String? search)? loadRequested,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() loadRequested,
+    required TResult Function(String? search) loadRequested,
   }) {
     return started();
   }
@@ -122,7 +122,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? loadRequested,
+    TResult? Function(String? search)? loadRequested,
   }) {
     return started?.call();
   }
@@ -131,7 +131,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? loadRequested,
+    TResult Function(String? search)? loadRequested,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -181,6 +181,8 @@ abstract class _$$LoadRequestedImplCopyWith<$Res> {
   factory _$$LoadRequestedImplCopyWith(
           _$LoadRequestedImpl value, $Res Function(_$LoadRequestedImpl) then) =
       __$$LoadRequestedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String? search});
 }
 
 /// @nodoc
@@ -190,54 +192,78 @@ class __$$LoadRequestedImplCopyWithImpl<$Res>
   __$$LoadRequestedImplCopyWithImpl(
       _$LoadRequestedImpl _value, $Res Function(_$LoadRequestedImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? search = freezed,
+  }) {
+    return _then(_$LoadRequestedImpl(
+      search: freezed == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$LoadRequestedImpl implements _LoadRequested {
-  const _$LoadRequestedImpl();
+  const _$LoadRequestedImpl({this.search});
+
+  @override
+  final String? search;
 
   @override
   String toString() {
-    return 'NoteListEvent.loadRequested()';
+    return 'NoteListEvent.loadRequested(search: $search)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadRequestedImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$LoadRequestedImpl &&
+            (identical(other.search, search) || other.search == search));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, search);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadRequestedImplCopyWith<_$LoadRequestedImpl> get copyWith =>
+      __$$LoadRequestedImplCopyWithImpl<_$LoadRequestedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() loadRequested,
+    required TResult Function(String? search) loadRequested,
   }) {
-    return loadRequested();
+    return loadRequested(search);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? loadRequested,
+    TResult? Function(String? search)? loadRequested,
   }) {
-    return loadRequested?.call();
+    return loadRequested?.call(search);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? loadRequested,
+    TResult Function(String? search)? loadRequested,
     required TResult orElse(),
   }) {
     if (loadRequested != null) {
-      return loadRequested();
+      return loadRequested(search);
     }
     return orElse();
   }
@@ -275,7 +301,12 @@ class _$LoadRequestedImpl implements _LoadRequested {
 }
 
 abstract class _LoadRequested implements NoteListEvent {
-  const factory _LoadRequested() = _$LoadRequestedImpl;
+  const factory _LoadRequested({final String? search}) = _$LoadRequestedImpl;
+
+  String? get search;
+  @JsonKey(ignore: true)
+  _$$LoadRequestedImplCopyWith<_$LoadRequestedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

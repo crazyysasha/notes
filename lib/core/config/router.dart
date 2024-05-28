@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:notes/core/widgets/widgets.dart';
-import 'package:notes/features/notes/presentation/screens/category_store_screen.dart';
-import 'package:notes/features/notes/presentation/screens/screens.dart';
+import '../../features/notes/presentation/screens/screens.dart';
 import 'package:sheet/route.dart';
 
 class NotesRouter {
@@ -37,8 +37,37 @@ class NotesRouter {
       GoRoute(
         name: 'note.edit',
         path: '/edit/:id',
-        builder: (context, state) => NoteEditScreen(
-          id: int.parse(state.pathParameters['id']!),
+        pageBuilder: (context, state) => CupertinoExtendedPage(
+          child: NoteEditScreen(
+            id: int.parse(state.pathParameters['id']!),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/delete/:id',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(
+            opacity: secondaryAnimation.drive(
+              Tween(
+                begin: 1,
+                end: 0,
+              ),
+            ),
+            child: FadeTransition(
+              opacity: animation.drive(
+                Tween(
+                  begin: 0,
+                  end: 1,
+                ),
+              ),
+              child: child,
+            ),
+          ),
+          opaque: false,
+          child: NoteDeleteActionSheet(
+            id: int.parse(state.pathParameters['id']!),
+          ),
         ),
       ),
       GoRoute(

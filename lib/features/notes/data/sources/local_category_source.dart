@@ -52,6 +52,7 @@ class LocalCategorySource implements CategorySource {
     final matches = box.values.where(
       (element) => element.name.toLowerCase() == name.toLowerCase(),
     );
+
     if (matches.isNotEmpty) {
       return matches.first;
     }

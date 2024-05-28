@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -23,7 +24,13 @@ class NoteDeleteBloc extends Bloc<NoteDeleteEvent, NoteDeleteState> {
         emit(const NoteDeleteState.inProcess());
 
         // TODO: remove delay
-        await Future.delayed(const Duration(milliseconds: 500));
+        if (kDebugMode) {
+          await Future.delayed(
+            const Duration(
+              milliseconds: 500,
+            ),
+          );
+        }
 
         await repository.delete(
           event.id,

@@ -8,8 +8,12 @@ import '../entities/entities.dart';
 
 class NoteRepositoryImpl implements NoteRepository {
   final NoteSource source;
+  final CategorySource categorySource;
 
-  NoteRepositoryImpl({required this.source});
+  NoteRepositoryImpl({
+    required this.source,
+    required this.categorySource,
+  });
   @override
   FutureOr<void> delete(int entityId) {
     return source.delete(entityId);
@@ -38,18 +42,26 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  FutureOr<int> store(Note entity) {
+  FutureOr<int> store(Note entity) async {
     return source.store(
       NoteModel(
         title: entity.title,
         content: entity.content,
         color: entity.color,
+        category: entity.category != null
+            ? await categorySource.firstOrStore(
+                id: entity.category?.id,
+                findingModel: entity.category?.id == null
+                    ? CategoryModel(name: entity.category?.name ?? '')
+                    : null,
+              )
+            : null,
       ),
     );
   }
 
   @override
-  FutureOr<void> update(Note entity) {
+  FutureOr<void> update(Note entity) async {
     if (entity.id == null) {
       throw NotFoundException(
         message: 'Note with id: ${entity.id} not found in database.',
@@ -61,6 +73,9 @@ class NoteRepositoryImpl implements NoteRepository {
         title: entity.title,
         content: entity.content,
         color: entity.color,
+        category: await categorySource.firstOrStore(
+          id: entity.category?.id,
+        ),
       ),
     );
   }

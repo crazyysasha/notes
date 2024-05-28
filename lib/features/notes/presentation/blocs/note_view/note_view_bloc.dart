@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:notes/features/notes/domain/repositories/note_repository.dart';
 
@@ -20,12 +21,15 @@ class NoteViewBloc extends Bloc<NoteViewEvent, NoteViewState> {
       try {
         emit(const NoteViewState.inProcess());
 
-        // TODO: temp delay
-        await Future.delayed(
-          const Duration(
-            milliseconds: 500,
-          ),
-        );
+        // TODO: remove delay
+        if (kDebugMode) {
+          await Future.delayed(
+            const Duration(
+              milliseconds: 500,
+            ),
+          );
+        }
+
         final data = await repository.getById(event.id);
 
         emit(

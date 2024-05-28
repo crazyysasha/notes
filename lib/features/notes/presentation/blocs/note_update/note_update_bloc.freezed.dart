@@ -572,7 +572,7 @@ class __$$NoteUpdateStateImplCopyWithImpl<$Res>
 class _$NoteUpdateStateImpl implements _NoteUpdateState {
   const _$NoteUpdateStateImpl(
       {this.inProcess = false,
-      required this.payload,
+      this.payload = const Note(title: '', content: ''),
       this.success = false,
       this.failureMessage});
 
@@ -580,6 +580,7 @@ class _$NoteUpdateStateImpl implements _NoteUpdateState {
   @JsonKey()
   final bool inProcess;
   @override
+  @JsonKey()
   final Note payload;
   @override
   @JsonKey()
@@ -620,7 +621,7 @@ class _$NoteUpdateStateImpl implements _NoteUpdateState {
 abstract class _NoteUpdateState implements NoteUpdateState {
   const factory _NoteUpdateState(
       {final bool inProcess,
-      required final Note payload,
+      final Note payload,
       final dynamic success,
       final String? failureMessage}) = _$NoteUpdateStateImpl;
 

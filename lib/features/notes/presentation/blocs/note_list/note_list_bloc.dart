@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/repositories.dart';
@@ -37,7 +38,17 @@ class NoteListBloc extends Bloc<NoteListEvent, NoteListState> {
           failureMessage: null,
         ),
       );
-      final data = await repository.get();
+      // TODO: remove delay
+      if (kDebugMode) {
+        await Future.delayed(
+          const Duration(
+            milliseconds: 500,
+          ),
+        );
+      }
+      final data = await repository.get(
+        search: event.search,
+      );
 
       emit(
         state.copyWith(

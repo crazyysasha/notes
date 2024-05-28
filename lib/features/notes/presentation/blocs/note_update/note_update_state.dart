@@ -4,7 +4,7 @@ part of 'note_update_bloc.dart';
 class NoteUpdateState with _$NoteUpdateState {
   const factory NoteUpdateState({
     @Default(false) bool inProcess,
-    required Note payload,
+    @Default(Note(title: '', content: '')) Note payload,
     @Default(false) success,
     String? failureMessage,
   }) = _NoteUpdateState;
